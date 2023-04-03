@@ -1,30 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getFile, getFiles } from "../../features/files/filesAPI";
+import React from "react";
 import Table from "react-bootstrap/Table";
 import TableItem from "./TableItem";
 import Loading from "../Spinner/Spinner";
 import { Button, Container, Form } from "react-bootstrap";
+import useFiles from "../../hooks/useFiles";
 
 function TableComponent() {
-  const [search, setSearch] = useState("");
-  const { loading, files, error } = useSelector((state) => state.files);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getFiles());
-  }, [dispatch]);
+  
+const {loading,files,error, handleChange,handleSearch} =  useFiles()
 
   return (
     <Container fluid style={{ margin: "1rem auto" }}>
       <Container>
         <Form.Group className="mb-3 d-flex w-50">
           <Form.Control
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleChange}
             placeholder="File Name"
           />
           <Button
-            onClick={() => dispatch(getFile(search))}
+            onClick={handleSearch}
             variant="danger"
             className="mx-2"
           >
